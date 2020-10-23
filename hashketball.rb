@@ -127,3 +127,89 @@ def game_hash
 end
 
 # Write code here
+
+
+def player_data
+  player_info = {}
+  game_hash[:home][:players].each do |hash|
+  player_info[(hash[:player_name])] = hash[:player_name]
+    hash.each_with_object({}) do |(k, v), a|
+     a[k] = v
+     a[:team_name] = "Brooklyn Nets"
+     player_info[(hash[:player_name])] = a
+    end
+  end
+  player_info
+  game_hash[:away][:players].each do |hash|
+  player_info[(hash[:player_name])] = hash[:player_name]
+    hash.each_with_object({}) do |(k, v), a|
+     a[k] = v
+     a[:team_name] = "Charlotte Hornets"
+     player_info[(hash[:player_name])] = a
+    end
+  end
+  return player_info
+end
+
+def num_points_scored(player)
+  player_data.each do |key, value|
+    if value[:player_name] == player
+     return value[:points]
+    end
+  end
+end
+
+def shoe_size(player)
+  player_data.each do |key, value|
+    if value[:player_name] == player
+     return value[:shoe]
+    end
+  end
+end
+
+def player_numbers(team)
+  jersey_numbers = []
+  player_data.each do |key, value|
+    if value[:team_name] == team
+      jersey_numbers << value[:number]
+    end
+  end
+  jersey_numbers
+end
+
+def player_stats(player)
+ player_data.each do |key, value|
+    if value[:player_name] == player
+        value.delete(:team_name)
+        return value
+    end
+  end
+end
+
+def big_shoe_rebounds
+  size = []
+  player_data.each do |key, value|
+    size << value[:shoe]
+  end
+    player_data.each do |key, value|
+      if value[:shoe] == size.max
+        return value[:rebounds]
+      end
+    end
+end
+
+def team_colors(team)
+  game_hash.each do |key, value|
+    if value[:team_name] == team
+      return value[:colors]
+    end
+  end
+end
+
+def team_names
+  teams = []
+  game_hash.each do |key, value|
+    teams << value[:team_name]
+  end
+  return teams
+end
